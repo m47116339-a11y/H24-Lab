@@ -1,23 +1,32 @@
 {
-  "Company": "H24 Solutions",
-  "Domain": "corp.lab",
-  "NetBIOS": "CORP",
+    "Company": "H24",
+    "Domain": "corp.lab",
+    "NetBIOS": "CORP",
 
-  "OrganizationalUnits": [
-    "Admins",
-    "Servers",
-    "Workstations",
-    "Employees",
-    "Groups",
-    "Service Accounts"
-  ],
+    "OrganizationalUnits": [
+        "Admins",
+        "Servers",
+        "Workstations",
+        "Employees",
+        "Groups",
+        "Service Accounts"
+    ],
 
-  "Departments": [
-    "IT",
-    "HR",
-    "Accounting",
-    "Sales",
-    "Support",
-    "Management"
-  ]
+    "Departments": [
+        "IT",
+        "HR",
+        "Accounting",
+        "Sales",
+        "Support",
+        "Management"
+    ],
+
+    "Groups": [
+        "GG_IT",
+        "GG_HR",
+        "GG_Accounting",
+        "GG_Sales",
+        "GG_Support",
+        "GG_Management"
+    ]
 }
