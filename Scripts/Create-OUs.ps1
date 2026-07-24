@@ -1,8 +1,8 @@
-Import-Module "$PSScriptRoot\..\Modules\H24.ActiveDirectory.psm1" -Force
 #Requires -Modules ActiveDirectory
 
 [CmdletBinding()]
 param()
+Import-Module "$PSScriptRoot\..\Modules\H24.ActiveDirectory.psm1" -Force
 
 $ConfigPath = Join-Path $PSScriptRoot "..\Config\Company.json"
 
