@@ -1,3 +1,4 @@
+Import-Module "$PSScriptRoot\..\Modules\H24.ActiveDirectory.psm1" -Force
 #Requires -Modules ActiveDirectory
 
 [CmdletBinding()]
@@ -19,17 +20,28 @@ foreach ($OU in $config.OrganizationalUnits) {
 
     if (-not (Get-ADOrganizationalUnit -LDAPFilter "(ou=$OU)" -ErrorAction SilentlyContinue)) {
 
-        Write-Host "Creating OU: $OU" -ForegroundColor Green
+        Write-H24Log "Creating OU: $OU"
 
-        New-ADOrganizationalUnit `
-            -Name $OU `
-            -Path $DomainDN `
-            -ProtectedFromAccidentalDeletion $true
+        try {
+
+    New-ADOrganizationalUnit `
+        -Name $OU `
+        -Path $DomainDN `
+        -ProtectedFromAccidentalDeletion $true
+
+    Write-H24Log "OU created: $OU"
+
+}
+catch {
+
+    Write-H24Log "Failed to create OU: $OU - $($_.Exception.Message)" "ERROR"
+
+}
 
     }
     else {
 
-        Write-Host "OU already exists: $OU" -ForegroundColor Yellow
+        Write-H24Log "OU already exists: $OU"
 
     }
 
@@ -41,21 +53,31 @@ foreach ($Department in $config.Departments) {
 
     if (-not (Get-ADOrganizationalUnit -LDAPFilter "(ou=$Department)" -SearchBase $EmployeesDN -ErrorAction SilentlyContinue)) {
 
-        Write-Host "Creating Department: $Department" -ForegroundColor Cyan
+        Write-H24Log "Creating Department: $Department"
 
-        New-ADOrganizationalUnit `
-            -Name $Department `
-            -Path $EmployeesDN `
-            -ProtectedFromAccidentalDeletion $true
+try {
+
+    New-ADOrganizationalUnit `
+        -Name $Department `
+        -Path $EmployeesDN `
+        -ProtectedFromAccidentalDeletion $true
+
+    Write-H24Log "Department created: $Department"
+
+}
+catch {
+
+    Write-H24Log "Failed to create Department: $Department - $($_.Exception.Message)" "ERROR"
+
+}
 
     }
     else {
 
-        Write-Host "Department already exists: $Department" -ForegroundColor Yellow
+        Write-H24Log "Department already exists: $Department"
 
     }
 
 }
 
-Write-Host ""
-Write-Host "Active Directory structure deployment completed." -ForegroundColor Green
+Write-H24Log "Active Directory structure deployment completed."
