@@ -1,0 +1,22 @@
+{
+  "Company": "H24 Solutions",
+  "Domain": "corp.lab",
+  "NetBIOS": "CORP",
+
+  "OrganizationalUnits": [
+    "Admins",
+    "Servers",
+    "Workstations",
+    "Employees",
+    "Groups",
+    "Service Accounts"
+  ],
+
+  "Departments": [
+    "IT",
+    "HR",
+    "Accounting",
+    "Sales",
+    "Support",
+    "Management"
+  ]
