@@ -1,7 +1,9 @@
-Import-Module "$PSScriptRoot\..\Modules\H24.ActiveDirectory.psm1" -Force
+#Requires -Modules ActiveDirectory
 
 [CmdletBinding()]
 param()
+
+Import-Module "$PSScriptRoot\..\Modules\H24.ActiveDirectory.psm1" -Force
 
 Write-H24Log "Starting H24 Lab deployment"
 
