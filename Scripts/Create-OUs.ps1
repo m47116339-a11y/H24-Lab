@@ -58,4 +58,4 @@ foreach ($Department in $config.Departments) {
 }
 
 Write-Host ""
-Write-Host "Active Directory structure deployment completed." -ForegroundColor 
+Write-Host "Active Directory structure deployment completed." -ForegroundColor Green
