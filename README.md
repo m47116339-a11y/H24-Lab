@@ -4,22 +4,22 @@ Enterprise Active Directory Lab built with PowerShell, Windows Server 2025 and M
 
 ---
 
-# Overview
+## Overview
 
-H24-Lab is my personal learning project focused on Windows Server administration and infrastructure automation.
+H24-Lab is my personal infrastructure automation project focused on Windows Server administration and PowerShell.
 
-The purpose of this repository is to build a complete Active Directory environment using Infrastructure as Code principles. Instead of configuring everything manually, the entire lab can be deployed automatically with PowerShell.
+The purpose of this repository is to build and automate a complete Enterprise Active Directory environment using Infrastructure as Code (IaC) principles. Instead of configuring everything manually, the entire lab can be deployed automatically from code.
 
-This project is continuously expanded as I learn new Windows Server technologies.
+This repository is continuously expanded as I learn new Windows Server technologies and enterprise administration practices.
 
 ---
 
-# Features
+## Features
 
 - Automated Organizational Unit deployment
 - Automated Security Group deployment
 - Automated User deployment
-- User provisioning from CSV
+- CSV user provisioning
 - JSON configuration
 - PowerShell logging module
 - Automatic group membership
@@ -28,7 +28,7 @@ This project is continuously expanded as I learn new Windows Server technologies
 
 ---
 
-# Technologies
+## Technologies
 
 - Windows Server 2025
 - Active Directory Domain Services
@@ -39,10 +39,16 @@ This project is continuously expanded as I learn new Windows Server technologies
 
 ---
 
-# Project Structure
+## Project Structure
 
 ```text
 H24-Lab
+│
+├── Assets
+│   ├── deployment.png
+│   ├── groups.png
+│   ├── ou-structure.png
+│   └── users.png
 │
 ├── Config
 │   └── Company.json
@@ -70,38 +76,38 @@ H24-Lab
 
 ---
 
-# Deployment
+## Deployment
 
-Clone the repository
+Clone the repository:
 
 ```powershell
 git clone https://github.com/m47116339-a11y/H24-Lab.git
 ```
 
-Go to the project
+Open the Scripts directory:
 
 ```powershell
 cd H24-Lab\Scripts
 ```
 
-Run deployment
+Run the deployment:
 
 ```powershell
 .\Deploy-H24Lab.ps1
 ```
 
-The deployment script will:
+The deployment script automatically:
 
-- Create Organizational Units
-- Create Security Groups
-- Import users from CSV
-- Create Active Directory users
-- Add users to the correct groups
-- Save deployment logs
+- Creates Organizational Units
+- Creates Security Groups
+- Imports users from CSV
+- Creates Active Directory users
+- Adds users to their department groups
+- Writes deployment logs
 
 ---
 
-# Example Output
+## Example Output
 
 ```text
 [INFO] Starting H24 Lab deployment
@@ -112,43 +118,40 @@ The deployment script will:
 [INFO] Added ipetrenko to GG_IT
 
 [INFO] User deployment completed.
-
 [INFO] H24 Lab deployment completed.
 ```
 
 ---
 
-# Screenshots
+## Project Preview
 
-# Screenshots
-
-## Active Directory Structure
+### Active Directory Structure
 
 ![Active Directory Structure](Assets/ou-structure.png)
 
 ---
 
-## Security Groups
+### Security Groups
 
 ![Security Groups](Assets/groups.png)
 
 ---
 
-## Users
+### Users
 
 ![Users](Assets/users.png)
 
 ---
 
-## Deployment Output
+### Deployment Output
 
 ![Deployment Output](Assets/deployment.png)
 
 ---
 
-# Roadmap
+## Roadmap
 
-## Completed
+### Completed
 
 - [x] Active Directory design
 - [x] Organizational Unit deployment
@@ -158,7 +161,7 @@ The deployment script will:
 - [x] Logging module
 - [x] Automated deployment
 
-## Planned
+### Planned
 
 - [ ] Group Policy deployment
 - [ ] File Server automation
@@ -172,6 +175,14 @@ The deployment script will:
 
 ---
 
-# Author
+## Project Status
+
+**Current version:** `v1.0`
+
+The Active Directory deployment workflow is fully functional. Future versions will focus on Windows Server infrastructure services and automation.
+
+---
+
+## Author
 
 Created by **Maxim** as part of my Windows Server and PowerShell learning journey.
