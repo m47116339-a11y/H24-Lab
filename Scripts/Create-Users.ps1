@@ -62,6 +62,34 @@ foreach ($User in $Users) {
 
     }
 
+$ExistingUser = Get-ADUser $User.Username -Properties Enabled
+
+if (-not $ExistingUser.Enabled) {
+
+    try {
+
+        Set-ADAccountPassword `
+            -Identity $User.Username `
+            -NewPassword $Password `
+            -Reset `
+            -ErrorAction Stop
+
+        Enable-ADAccount `
+            -Identity $User.Username `
+            -ErrorAction Stop
+
+        Write-H24Log "Enabled existing user: $($User.Username)"
+
+    }
+    catch {
+
+        Write-H24Log "Failed to enable existing user: $($User.Username) - $($_.Exception.Message)" "ERROR"
+        continue
+
+    }
+
+}
+
     $GroupName = "GG_$($User.Department)"
 
     try {
