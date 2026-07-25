@@ -1,0 +1,16 @@
+{
+    "Policies": [
+        {
+            "Name": "Workstation Policy",
+            "Target": "Workstations"
+        },
+        {
+            "Name": "Server Policy",
+            "Target": "Servers"
+        },
+        {
+            "Name": "Password Policy",
+            "Target": "Domain"
+        }
+    ]
+}

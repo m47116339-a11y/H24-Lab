@@ -4,13 +4,12 @@
     "NetBIOS": "CORP",
 
     "OrganizationalUnits": [
-        "Admins",
-        "Servers",
-        "Workstations",
-        "Employees",
-        "Groups",
-        "Service Accounts"
-    ],
+    "Employees",
+    "Groups",
+    "Servers",
+    "Workstations",
+    "Service Accounts"
+],
 
     "Departments": [
         "IT",
