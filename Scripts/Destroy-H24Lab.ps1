@@ -130,23 +130,28 @@ foreach ($OU in $OUs) {
 
     if ($PSCmdlet.ShouldProcess($OU, "Remove Organizational Unit")) {
 
-        try {
+    try {
 
-            Remove-ADOrganizationalUnit `
-                -Identity $OUdn `
-                -Recursive `
-                -Confirm:$false `
-                -ErrorAction Stop
+        Set-ADOrganizationalUnit `
+            -Identity $OUdn `
+            -ProtectedFromAccidentalDeletion $false
 
-            Write-H24Log "Removed OU: $OU"
+        Remove-ADOrganizationalUnit `
+            -Identity $OUdn `
+            -Recursive `
+            -Confirm:$false `
+            -ErrorAction Stop
 
-        }
-        catch {
+        Write-H24Log "Removed OU: $OU"
 
-            Write-H24Log "Failed to remove OU: $OU. $_" "ERROR"
-
-        }
     }
+    catch {
+
+        Write-H24Log "Failed to remove OU: $OU. $_" "ERROR"
+
+    }
+
+}
 }
 
 Write-H24Log "H24 Lab cleanup completed"
