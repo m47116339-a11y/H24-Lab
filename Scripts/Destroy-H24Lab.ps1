@@ -24,7 +24,12 @@ Write-H24Log "Removing users..."
 
 foreach ($User in $Users) {
 
-    $ADUser = Get-ADUser -Identity $User.Username -ErrorAction SilentlyContinue
+    try {
+        $ADUser = Get-ADUser -Identity $User.Username -ErrorAction Stop
+    }
+    catch {
+        $ADUser = $null
+    }
 
     if (-not $ADUser) {
         Write-H24Log "User not found: $($User.Username)"
@@ -35,16 +40,22 @@ foreach ($User in $Users) {
 
         try {
 
-            Remove-ADUser -Identity $ADUser -Confirm:$false -ErrorAction Stop
+            Remove-ADUser `
+                -Identity $ADUser `
+                -Confirm:$false `
+                -ErrorAction Stop
+
             Write-H24Log "Removed user: $($User.Username)"
 
         }
         catch {
 
-            Write-H24Log "Failed to remove user: $($User.Username). $_" "ERROR"
+            Write-H24Log "Failed to remove user: $($User.Username). $($_.Exception.Message)" "ERROR"
 
         }
+
     }
+
 }
 
 # --------------------------------------------------------------------
@@ -55,7 +66,12 @@ Write-H24Log "Removing security groups..."
 
 foreach ($Group in $Config.Groups) {
 
-    $ADGroup = Get-ADGroup -Identity $Group -ErrorAction SilentlyContinue
+    try {
+        $ADGroup = Get-ADGroup -Identity $Group -ErrorAction Stop
+    }
+    catch {
+        $ADGroup = $null
+    }
 
     if (-not $ADGroup) {
         Write-H24Log "Group not found: $Group"
@@ -66,16 +82,22 @@ foreach ($Group in $Config.Groups) {
 
         try {
 
-            Remove-ADGroup -Identity $ADGroup -Confirm:$false -ErrorAction Stop
+            Remove-ADGroup `
+                -Identity $ADGroup `
+                -Confirm:$false `
+                -ErrorAction Stop
+
             Write-H24Log "Removed group: $Group"
 
         }
         catch {
 
-            Write-H24Log "Failed to remove group: $Group. $_" "ERROR"
+            Write-H24Log "Failed to remove group: $Group. $($_.Exception.Message)" "ERROR"
 
         }
+
     }
+
 }
 
 # --------------------------------------------------------------------
@@ -86,7 +108,12 @@ Write-H24Log "Removing Group Policies..."
 
 foreach ($Policy in $GpoConfig.Policies) {
 
-    $GPO = Get-GPO -Name $Policy.Name -ErrorAction SilentlyContinue
+    try {
+        $GPO = Get-GPO -Name $Policy.Name -ErrorAction Stop
+    }
+    catch {
+        $GPO = $null
+    }
 
     if (-not $GPO) {
         Write-H24Log "GPO not found: $($Policy.Name)"
@@ -97,16 +124,21 @@ foreach ($Policy in $GpoConfig.Policies) {
 
         try {
 
-            Remove-GPO -Name $Policy.Name -ErrorAction Stop
+            Remove-GPO `
+                -Name $Policy.Name `
+                -ErrorAction Stop
+
             Write-H24Log "Removed GPO: $($Policy.Name)"
 
         }
         catch {
 
-            Write-H24Log "Failed to remove GPO: $($Policy.Name). $_" "ERROR"
+            Write-H24Log "Failed to remove GPO: $($Policy.Name). $($_.Exception.Message)" "ERROR"
 
         }
+
     }
+
 }
 
 # --------------------------------------------------------------------
@@ -121,7 +153,12 @@ foreach ($OU in $OUs) {
 
     $OUdn = "OU=$OU,$DomainDN"
 
-    $ADOU = Get-ADOrganizationalUnit -Identity $OUdn -ErrorAction SilentlyContinue
+    try {
+        $ADOU = Get-ADOrganizationalUnit -Identity $OUdn -ErrorAction Stop
+    }
+    catch {
+        $ADOU = $null
+    }
 
     if (-not $ADOU) {
         Write-H24Log "OU not found: $OU"

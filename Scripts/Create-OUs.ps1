@@ -16,7 +16,6 @@ $DomainDN = (Get-ADDomain).DistinguishedName
 
 foreach ($OU in $config.OrganizationalUnits) {
 
-    $DN = "OU=$OU,$DomainDN"
 
     if (-not (Get-ADOrganizationalUnit -LDAPFilter "(ou=$OU)" -ErrorAction SilentlyContinue)) {
 

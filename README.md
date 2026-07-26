@@ -5,19 +5,19 @@
 ![Azure](https://img.shields.io/badge/Microsoft-Azure-0078D4?logo=microsoftazure&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-Enterprise Active Directory Lab built with **PowerShell**, **Windows Server 2025**, and **Microsoft Azure**.
+Enterprise Active Directory lab built with **PowerShell**, **Windows Server 2025**, and **Microsoft Azure**.
 
 ---
 
 # Overview
 
-H24-Lab is my personal infrastructure automation project focused on Windows Server administration and PowerShell.
+H24-Lab is a personal infrastructure automation project focused on Windows Server administration and PowerShell.
 
-The purpose of this repository is to automate the deployment of a complete Enterprise Active Directory environment using Infrastructure as Code (IaC) principles.
+The goal of this repository is to automate the deployment of a complete Active Directory lab using Infrastructure as Code (IaC) principles.
 
-Instead of configuring everything manually, the entire lab can be deployed, validated, and removed automatically using PowerShell scripts.
+Instead of configuring every component manually, the entire environment can be deployed, validated, and removed automatically through PowerShell scripts.
 
-The project continues to evolve as I learn new Windows Server technologies and enterprise administration practices.
+The project is designed as a long-term learning platform and will continue to expand with additional Windows Server roles and enterprise automation scenarios.
 
 ---
 
@@ -31,8 +31,8 @@ The project continues to evolve as I learn new Windows Server technologies and e
 - Automatic group membership assignment
 - Group Policy Object (GPO) deployment
 - Automated environment validation
-- Safe lab cleanup with WhatIf/Confirm support
-- PowerShell logging
+- Safe lab cleanup with WhatIf / Confirm support
+- Centralized PowerShell logging
 - Idempotent deployment
 
 ---
@@ -90,6 +90,16 @@ H24-Lab
 
 ---
 
+# Requirements
+
+- Windows Server 2025
+- Active Directory Domain Services
+- Group Policy Management
+- PowerShell 7+ (recommended)
+- Domain Administrator privileges
+
+---
+
 # Usage
 
 Clone the repository:
@@ -141,10 +151,10 @@ Deploy-H24Lab.ps1
 
 The project supports a complete deployment lifecycle:
 
-- Deploy the environment
-- Validate the deployment
-- Remove the environment
-- Re-deploy from scratch
+- Deploy
+- Validate
+- Destroy
+- Redeploy
 
 ---
 
@@ -154,9 +164,9 @@ The project supports a complete deployment lifecycle:
 |---------|-------------|
 | Deploy-H24Lab.ps1 | Deploys the complete Active Directory lab |
 | Test-H24Lab.ps1 | Validates the deployed environment |
-| Destroy-H24Lab.ps1 | Safely removes the entire lab |
-| Create-OUs.ps1 | Creates the Active Directory OU structure |
-| Create-Groups.ps1 | Creates department security groups |
+| Destroy-H24Lab.ps1 | Safely removes the lab |
+| Create-OUs.ps1 | Creates the Organizational Unit structure |
+| Create-Groups.ps1 | Creates security groups |
 | Create-GPO.ps1 | Creates and links Group Policy Objects |
 | Create-Users.ps1 | Imports users from CSV and assigns group membership |
 
@@ -183,19 +193,13 @@ The project supports a complete deployment lifecycle:
 
 ![Active Directory Structure](Assets/ou-structure.png)
 
----
-
 ## Security Groups
 
 ![Security Groups](Assets/groups.png)
 
----
-
 ## Users
 
 ![Users](Assets/users.png)
-
----
 
 ## Deployment Output
 
@@ -212,7 +216,6 @@ The project supports a complete deployment lifecycle:
 - [x] Department OU structure
 - [x] Security Group deployment
 - [x] CSV user provisioning
-- [x] User deployment
 - [x] Automatic group membership
 - [x] Group Policy deployment
 - [x] Deployment logging
@@ -229,13 +232,13 @@ The project supports a complete deployment lifecycle:
 - [ ] DNS automation
 - [ ] DHCP automation
 - [ ] Pester tests
-- [ ] GitHub Actions (CI/CD)
+- [ ] GitHub Actions
 
 ---
 
 # Project Status
 
-✅ **Version 1.0 — Core Active Directory Automation Completed**
+✅ **Version 1.0 — Active Directory Automation Complete**
 
 Current functionality:
 

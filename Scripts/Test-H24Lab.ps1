@@ -32,7 +32,14 @@ Write-H24Log "Checking Security Groups..."
 
 foreach ($Group in $Config.Groups) {
 
-    if (Get-ADGroup -Identity $Group -ErrorAction SilentlyContinue) {
+    try {
+        $ADGroup = Get-ADGroup -Identity $Group -ErrorAction Stop
+    }
+    catch {
+        $ADGroup = $null
+    }
+
+    if ($ADGroup) {
 
         Write-H24Log "PASS - Group exists: $Group"
 
@@ -68,7 +75,14 @@ $Users = Import-Csv "$PSScriptRoot\..\Users\Users.csv"
 
 foreach ($User in $Users) {
 
-    if (Get-ADUser -Identity $User.Username -ErrorAction SilentlyContinue) {
+    try {
+        $ADUser = Get-ADUser -Identity $User.Username -ErrorAction Stop
+    }
+    catch {
+        $ADUser = $null
+    }
+
+    if ($ADUser) {
 
         Write-H24Log "PASS - User exists: $($User.Username)"
 
