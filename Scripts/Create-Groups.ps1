@@ -18,7 +18,12 @@ $GroupsOU = "OU=Groups,$DomainDN"
 
 foreach ($Group in $Config.Groups) {
 
-    $ADGroup = Get-ADGroup -Identity $Group -ErrorAction SilentlyContinue
+    try {
+    $ADGroup = Get-ADGroup -Identity $Group -ErrorAction Stop
+}
+catch {
+    $ADGroup = $null
+}
 
     if (-not $ADGroup) {
 
