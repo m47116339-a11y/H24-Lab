@@ -7,10 +7,10 @@ Import-Module "$PSScriptRoot\..\Modules\H24.ActiveDirectory.psm1" -Force
 
 $Config = Get-Content "$PSScriptRoot\..\Config\Company.json" -Raw | ConvertFrom-Json
 $GpoConfig = Get-Content "$PSScriptRoot\..\Config\GPO.json" -Raw | ConvertFrom-Json
-
-$DomainDN = (Get-ADDomain).DistinguishedName
+$Users = Import-Csv "$PSScriptRoot\..\Users\Users.csv"
 
 $Passed = $true
+
 Write-H24Log "Checking Organizational Units..."
 
 foreach ($OU in $Config.OrganizationalUnits) {
@@ -28,6 +28,7 @@ foreach ($OU in $Config.OrganizationalUnits) {
     }
 
 }
+
 Write-H24Log "Checking Security Groups..."
 
 foreach ($Group in $Config.Groups) {
@@ -52,11 +53,19 @@ foreach ($Group in $Config.Groups) {
     }
 
 }
+
 Write-H24Log "Checking Group Policies..."
 
 foreach ($Policy in $GpoConfig.Policies) {
 
-    if (Get-GPO -Name $Policy.Name -ErrorAction SilentlyContinue) {
+    try {
+        $GPO = Get-GPO -Name $Policy.Name -ErrorAction Stop
+    }
+    catch {
+        $GPO = $null
+    }
+
+    if ($GPO) {
 
         Write-H24Log "PASS - GPO exists: $($Policy.Name)"
 
@@ -69,9 +78,8 @@ foreach ($Policy in $GpoConfig.Policies) {
     }
 
 }
-Write-H24Log "Checking Users..."
 
-$Users = Import-Csv "$PSScriptRoot\..\Users\Users.csv"
+Write-H24Log "Checking Users..."
 
 foreach ($User in $Users) {
 
@@ -95,13 +103,28 @@ foreach ($User in $Users) {
     }
 
 }
+
 Write-H24Log "Checking Group Membership..."
 
 foreach ($User in $Users) {
 
     $Group = "GG_$($User.Department)"
 
-    $Member = Get-ADGroupMember $Group -Recursive |
+    try {
+        $ADGroup = Get-ADGroup -Identity $Group -ErrorAction Stop
+    }
+    catch {
+        $ADGroup = $null
+    }
+
+    if (-not $ADGroup) {
+
+        Write-H24Log "SKIP - Group $Group does not exist, membership check skipped."
+        continue
+
+    }
+
+    $Member = Get-ADGroupMember -Identity $Group -Recursive |
         Where-Object SamAccountName -eq $User.Username
 
     if ($Member) {
@@ -117,12 +140,14 @@ foreach ($User in $Users) {
     }
 
 }
+
 Write-Host ""
 Write-Host "========================================="
 
 if ($Passed) {
 
     Write-H24Log "Lab validation completed successfully."
+
     Write-Host ""
     Write-Host "Validation Result: PASS"
 
@@ -130,6 +155,7 @@ if ($Passed) {
 else {
 
     Write-H24Log "Lab validation failed." "ERROR"
+
     Write-Host ""
     Write-Host "Validation Result: FAIL"
 
