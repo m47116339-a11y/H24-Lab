@@ -11,16 +11,16 @@ if (-not (Test-Path $ConfigPath)) {
     throw "Configuration file not found: $ConfigPath"
 }
 
-$config = Get-Content $ConfigPath -Raw | ConvertFrom-Json
+$Config = Get-Content $ConfigPath -Raw | ConvertFrom-Json
 
 $DomainDN = (Get-ADDomain).DistinguishedName
 $GroupsOU = "OU=Groups,$DomainDN"
 
-foreach ($Department in $config.Departments) {
+foreach ($Group in $Config.Groups) {
 
-    $Group = $Department.Group
+    $ADGroup = Get-ADGroup -Identity $Group -ErrorAction SilentlyContinue
 
-    if (-not (Get-ADGroup -LDAPFilter "(cn=$Group)" -SearchBase $GroupsOU -ErrorAction SilentlyContinue)) {
+    if (-not $ADGroup) {
 
         Write-H24Log "Creating Group: $Group"
 
@@ -31,7 +31,8 @@ foreach ($Department in $config.Departments) {
                 -SamAccountName $Group `
                 -GroupCategory Security `
                 -GroupScope Global `
-                -Path $GroupsOU
+                -Path $GroupsOU `
+                -ErrorAction Stop
 
             Write-H24Log "Group created: $Group"
 
