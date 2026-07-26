@@ -16,7 +16,9 @@ $config = Get-Content $ConfigPath -Raw | ConvertFrom-Json
 $DomainDN = (Get-ADDomain).DistinguishedName
 $GroupsOU = "OU=Groups,$DomainDN"
 
-foreach ($Group in $config.Groups) {
+foreach ($Department in $config.Departments) {
+
+    $Group = $Department.Group
 
     if (-not (Get-ADGroup -LDAPFilter "(cn=$Group)" -SearchBase $GroupsOU -ErrorAction SilentlyContinue)) {
 

@@ -109,11 +109,15 @@ Write-Host "========================================="
 if ($Passed) {
 
     Write-H24Log "Lab validation completed successfully."
+    Write-Host ""
+    Write-Host "Validation Result: PASS"
 
 }
 else {
 
     Write-H24Log "Lab validation failed." "ERROR"
+    Write-Host ""
+    Write-Host "Validation Result: FAIL"
 
 }
 

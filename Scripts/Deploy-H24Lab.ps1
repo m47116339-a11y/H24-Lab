@@ -5,13 +5,23 @@ param()
 
 Import-Module "$PSScriptRoot\..\Modules\H24.ActiveDirectory.psm1" -Force
 
-Write-H24Log "Starting H24 Lab deployment"
+try {
 
-$Password = Read-Host "Enter default user password" -AsSecureString
+    Write-H24Log "Starting H24 Lab deployment"
 
-& "$PSScriptRoot\Create-OUs.ps1"
-& "$PSScriptRoot\Create-Groups.ps1"
-& "$PSScriptRoot\Create-GPO.ps1"
-& "$PSScriptRoot\Create-Users.ps1" -Password $Password
+    $Password = Read-Host "Enter default user password" -AsSecureString
 
-Write-H24Log "H24 Lab deployment completed"
+    & "$PSScriptRoot\Create-OUs.ps1"
+    & "$PSScriptRoot\Create-Groups.ps1"
+    & "$PSScriptRoot\Create-GPO.ps1"
+    & "$PSScriptRoot\Create-Users.ps1" -Password $Password
+
+    Write-H24Log "H24 Lab deployment completed"
+
+}
+catch {
+
+    Write-H24Log "Deployment failed: $($_.Exception.Message)" "ERROR"
+    throw
+
+}   

@@ -151,7 +151,7 @@ foreach ($OU in $OUs) {
 
     }
 
-}
+}   
 }
 
 Write-H24Log "H24 Lab cleanup completed"

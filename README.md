@@ -1,45 +1,55 @@
 # H24-Lab
 
-Enterprise Active Directory Lab built with PowerShell, Windows Server 2025 and Microsoft Azure.
+![PowerShell](https://img.shields.io/badge/PowerShell-7+-5391FE?logo=powershell&logoColor=white)
+![Windows Server](https://img.shields.io/badge/Windows_Server-2025-0078D4)
+![Azure](https://img.shields.io/badge/Microsoft-Azure-0078D4?logo=microsoftazure&logoColor=white)
+![License](https://img.shields.io/badge/license-MIT-green)
+
+Enterprise Active Directory Lab built with **PowerShell**, **Windows Server 2025**, and **Microsoft Azure**.
 
 ---
 
-## Overview
+# Overview
 
 H24-Lab is my personal infrastructure automation project focused on Windows Server administration and PowerShell.
 
-The purpose of this repository is to build and automate a complete Enterprise Active Directory environment using Infrastructure as Code (IaC) principles. Instead of configuring everything manually, the entire lab can be deployed automatically from code.
+The purpose of this repository is to automate the deployment of a complete Enterprise Active Directory environment using Infrastructure as Code (IaC) principles.
 
-This repository is continuously expanded as I learn new Windows Server technologies and enterprise administration practices.
+Instead of configuring everything manually, the entire lab can be deployed, validated, and removed automatically using PowerShell scripts.
 
----
-
-## Features
-
-- Automated Organizational Unit deployment
-- Automated Security Group deployment
-- Automated User deployment
-- CSV user provisioning
-- JSON configuration
-- PowerShell logging module
-- Automatic group membership
-- One-command deployment
-- Git version control
+The project continues to evolve as I learn new Windows Server technologies and enterprise administration practices.
 
 ---
 
-## Technologies
+# Features
+
+- Automated Active Directory deployment
+- Organizational Unit (OU) creation
+- Department OU structure
+- Security Group creation
+- Bulk user provisioning from CSV
+- Automatic group membership assignment
+- Group Policy Object (GPO) deployment
+- Automated environment validation
+- Safe lab cleanup with WhatIf/Confirm support
+- PowerShell logging
+- Idempotent deployment
+
+---
+
+# Technologies
 
 - Windows Server 2025
 - Active Directory Domain Services
 - PowerShell
+- Group Policy
 - Microsoft Azure
 - Git
 - GitHub
 
 ---
 
-## Project Structure
+# Project Structure
 
 ```text
 H24-Lab
@@ -51,7 +61,8 @@ H24-Lab
 │   └── users.png
 │
 ├── Config
-│   └── Company.json
+│   ├── Company.json
+│   └── GPO.json
 │
 ├── Docs
 │   └── ActiveDirectoryDesign.md
@@ -65,8 +76,11 @@ H24-Lab
 ├── Scripts
 │   ├── Create-OUs.ps1
 │   ├── Create-Groups.ps1
+│   ├── Create-GPO.ps1
 │   ├── Create-Users.ps1
-│   └── Deploy-H24Lab.ps1
+│   ├── Deploy-H24Lab.ps1
+│   ├── Test-H24Lab.ps1
+│   └── Destroy-H24Lab.ps1
 │
 ├── Users
 │   └── Users.csv
@@ -76,7 +90,7 @@ H24-Lab
 
 ---
 
-## Deployment
+# Usage
 
 Clone the repository:
 
@@ -90,99 +104,160 @@ Open the Scripts directory:
 cd H24-Lab\Scripts
 ```
 
-Run the deployment:
+Deploy the lab:
 
 ```powershell
 .\Deploy-H24Lab.ps1
 ```
 
-The deployment script automatically:
+Validate the deployment:
 
-- Creates Organizational Units
-- Creates Security Groups
-- Imports users from CSV
-- Creates Active Directory users
-- Adds users to their department groups
-- Writes deployment logs
+```powershell
+.\Test-H24Lab.ps1
+```
 
----
+Remove the lab:
 
-## Example Output
-
-```text
-[INFO] Starting H24 Lab deployment
-
-[INFO] OU already exists: Employees
-[INFO] Group created: GG_IT
-[INFO] User created: ipetrenko
-[INFO] Added ipetrenko to GG_IT
-
-[INFO] User deployment completed.
-[INFO] H24 Lab deployment completed.
+```powershell
+.\Destroy-H24Lab.ps1
 ```
 
 ---
 
-## Project Preview
+# Project Workflow
 
-### Active Directory Structure
+```text
+Deploy-H24Lab.ps1
+        │
+        ▼
+Test-H24Lab.ps1
+        │
+        ▼
+Destroy-H24Lab.ps1
+        │
+        ▼
+Deploy-H24Lab.ps1
+```
+
+The project supports a complete deployment lifecycle:
+
+- Deploy the environment
+- Validate the deployment
+- Remove the environment
+- Re-deploy from scratch
+
+---
+
+# Scripts
+
+| Script | Description |
+|---------|-------------|
+| Deploy-H24Lab.ps1 | Deploys the complete Active Directory lab |
+| Test-H24Lab.ps1 | Validates the deployed environment |
+| Destroy-H24Lab.ps1 | Safely removes the entire lab |
+| Create-OUs.ps1 | Creates the Active Directory OU structure |
+| Create-Groups.ps1 | Creates department security groups |
+| Create-GPO.ps1 | Creates and links Group Policy Objects |
+| Create-Users.ps1 | Imports users from CSV and assigns group membership |
+
+---
+
+# Example Output
+
+```text
+[INFO] Starting H24 Lab deployment
+
+[INFO] OU created: Employees
+[INFO] Group created: GG_IT
+[INFO] User created: ipetrenko
+[INFO] Added ipetrenko to GG_IT
+
+[INFO] Lab validation completed successfully.
+```
+
+---
+
+# Project Preview
+
+## Active Directory Structure
 
 ![Active Directory Structure](Assets/ou-structure.png)
 
 ---
 
-### Security Groups
+## Security Groups
 
 ![Security Groups](Assets/groups.png)
 
 ---
 
-### Users
+## Users
 
 ![Users](Assets/users.png)
 
 ---
 
-### Deployment Output
+## Deployment Output
 
 ![Deployment Output](Assets/deployment.png)
 
 ---
 
-## Roadmap
+# Roadmap
 
-### Completed
+## Completed
 
 - [x] Active Directory design
 - [x] Organizational Unit deployment
+- [x] Department OU structure
 - [x] Security Group deployment
-- [x] User deployment
 - [x] CSV user provisioning
-- [x] Logging module
+- [x] User deployment
+- [x] Automatic group membership
+- [x] Group Policy deployment
+- [x] Deployment logging
 - [x] Automated deployment
+- [x] Automated validation
+- [x] Automated cleanup
 
-### Planned
+## Planned
 
-- [ ] Group Policy deployment
 - [ ] File Server automation
+- [ ] SMB Shares
 - [ ] NTFS permissions
-- [ ] Shared folders
+- [ ] Home folders
 - [ ] DNS automation
 - [ ] DHCP automation
-- [ ] Home folders
 - [ ] Pester tests
-- [ ] GitHub Actions
+- [ ] GitHub Actions (CI/CD)
 
 ---
 
-## Project Status
+# Project Status
 
-**Current version:** `v1.0`
+✅ **Version 1.0 — Core Active Directory Automation Completed**
 
-The Active Directory deployment workflow is fully functional. Future versions will focus on Windows Server infrastructure services and automation.
+Current functionality:
+
+- Active Directory deployment
+- User provisioning
+- Security Group management
+- Group Policy deployment
+- Environment validation
+- Safe environment cleanup
+
+Next milestone:
+
+- File Server automation
 
 ---
 
-## Author
+# License
+
+This project is licensed under the MIT License.
+
+---
+
+# Author
 
 Created by **Maxim** as part of my Windows Server and PowerShell learning journey.

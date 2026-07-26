@@ -21,9 +21,15 @@ function Write-H24Log {
 
     $LogPath = Join-Path $PSScriptRoot "..\Logs\Deploy.log"
 
-    if (-not (Test-Path (Split-Path $LogPath))) {
-        New-Item -ItemType Directory -Path (Split-Path $LogPath) | Out-Null
-    }
+    
+if (-not (Test-Path $LogDirectory)) {
+
+    New-Item `
+        -ItemType Directory `
+        -Path $LogDirectory `
+        -Force | Out-Null
+
+}
 
     Add-Content -Path $LogPath -Value "[$Time] [$Level] $Message"
 }

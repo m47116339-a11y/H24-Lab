@@ -6,8 +6,7 @@ param()
 Import-Module "$PSScriptRoot\..\Modules\H24.ActiveDirectory.psm1" -Force
 
 try {
-    $CompanyConfig = Get-Content "$PSScriptRoot\..\Config\Company.json" | ConvertFrom-Json
-    $GpoConfig = Get-Content "$PSScriptRoot\..\Config\GPO.json" | ConvertFrom-Json
+    $GpoConfig = Get-Content "$PSScriptRoot\..\Config\GPO.json" -Raw | ConvertFrom-Json
 
     $DomainDN = (Get-ADDomain).DistinguishedName
 
