@@ -121,37 +121,39 @@ foreach ($OU in $OUs) {
 
     $OUdn = "OU=$OU,$DomainDN"
 
-    if (-not (Get-ADOrganizationalUnit -Identity $OUdn -ErrorAction SilentlyContinue)) {
+    $ADOU = Get-ADOrganizationalUnit -Identity $OUdn -ErrorAction SilentlyContinue
 
+    if (-not $ADOU) {
         Write-H24Log "OU not found: $OU"
         continue
-
     }
 
     if ($PSCmdlet.ShouldProcess($OU, "Remove Organizational Unit")) {
 
-    try {
+        try {
 
-        Set-ADOrganizationalUnit `
-            -Identity $OUdn `
-            -ProtectedFromAccidentalDeletion $false
+            Set-ADOrganizationalUnit `
+                -Identity $OUdn `
+                -ProtectedFromAccidentalDeletion $false `
+                -ErrorAction Stop
 
-        Remove-ADOrganizationalUnit `
-            -Identity $OUdn `
-            -Recursive `
-            -Confirm:$false `
-            -ErrorAction Stop
+            Remove-ADOrganizationalUnit `
+                -Identity $OUdn `
+                -Recursive `
+                -Confirm:$false `
+                -ErrorAction Stop
 
-        Write-H24Log "Removed OU: $OU"
+            Write-H24Log "Removed OU: $OU"
+
+        }
+        catch {
+
+            Write-H24Log "Failed to remove OU: $OU. $($_.Exception.Message)" "ERROR"
+
+        }
 
     }
-    catch {
 
-        Write-H24Log "Failed to remove OU: $OU. $_" "ERROR"
-
-    }
-
-}   
 }
 
 Write-H24Log "H24 Lab cleanup completed"
