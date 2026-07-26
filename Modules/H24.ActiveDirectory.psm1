@@ -20,16 +20,14 @@ function Write-H24Log {
     Write-Host "[$Time] [$Level] $Message" -ForegroundColor $Color
 
     $LogPath = Join-Path $PSScriptRoot "..\Logs\Deploy.log"
+    $LogDirectory = Split-Path $LogPath
 
-    
-if (-not (Test-Path $LogDirectory)) {
-
-    New-Item `
-        -ItemType Directory `
-        -Path $LogDirectory `
-        -Force | Out-Null
-
-}
+    if (-not (Test-Path $LogDirectory)) {
+        New-Item `
+            -ItemType Directory `
+            -Path $LogDirectory `
+            -Force | Out-Null
+    }
 
     Add-Content -Path $LogPath -Value "[$Time] [$Level] $Message"
 }
